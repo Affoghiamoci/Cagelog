@@ -3,6 +3,7 @@ export interface CatalogEntry {
   name: string;
   type: 'cast' | 'crew' | 'collection';
   sort?: string;
+  image?: string;
 }
 
 export interface AddonConfig {

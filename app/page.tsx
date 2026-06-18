@@ -258,8 +258,9 @@ export default function ConfigPage() {
     const newCatalog: CatalogEntry = {
       id: item.id,
       name: item.name,
-      type: type,
-      sort: 'release_date.desc', // default
+      type,
+      sort: config.sort || 'release_date.desc',
+      image: item.profilePath || item.posterPath || undefined
     };
 
     if (!config.catalogs.some(c => c.id === newCatalog.id && c.type === newCatalog.type)) {
@@ -345,13 +346,18 @@ export default function ConfigPage() {
                 onKeyDown={e => e.key === 'Enter' && e.currentTarget.blur()}
               />
             ) : (
-              <>
-                <span className="catalog-name">{item.name}</span>
-                <button type="button" className="edit-btn" onClick={() => setEditing(true)}><PencilIcon /></button>
-              </>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                {item.image ? (
+                  <img src={item.image} alt={item.name} style={{ width: '28px', height: '28px', borderRadius: '50%', objectFit: 'cover' }} />
+                ) : (
+                  <div style={{ width: '28px', height: '28px', borderRadius: '50%', background: 'var(--surface-2)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '10px', color: 'var(--text-3)' }}>?</div>
+                )}
+                <span className="catalog-name" onClick={() => setEditing(true)}>{item.name}</span>
+              </div>
             )}
+            <button type="button" className="btn-edit" onClick={() => setEditing(!editing)}><PencilIcon /></button>
           </div>
-          <span className="catalog-sub">{typeLabel}</span>
+          <div className="catalog-type">{typeLabel}</div>
         </div>
 
         <div className="catalog-right">
