@@ -300,9 +300,9 @@ input, select { font-family: inherit; }
   box-shadow: 0 0 0 2px var(--glow);
 }
 
-.edit-btn { background: var(--surface-2); border: 1px solid var(--border); color: var(--text-2); padding: 4px; border-radius: var(--r-sm); display: flex; align-items: center; justify-content: center; transition: all var(--t); flex-shrink: 0; cursor: pointer; opacity: 0; }
+.edit-btn { background: none; border: none; color: var(--text-3); padding: 3px; border-radius: 4px; display: flex; align-items: center; justify-content: center; transition: all var(--t); flex-shrink: 0; opacity: 0; cursor: pointer; }
 .catalog-item:hover .edit-btn { opacity: 1; }
-.edit-btn:hover { background: var(--surface-3); color: var(--text); border-color: var(--border-hover); }
+.edit-btn:hover { background: var(--surface-2); color: var(--text); }
 
 .catalog-sub { font-size: 12px; color: var(--text-3); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .catalog-right { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
