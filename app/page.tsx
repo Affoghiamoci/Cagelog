@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useCallback } from 'react';
-import { encodeConfig, decodeConfig, AddonConfig, CatalogEntry, DEFAULT_CONFIG } from '@/lib/config';
+import { encodeConfig, decodeConfig, AddonConfig, CatalogEntry, DEFAULT_CONFIG, isConfigValid } from '@/lib/config';
 
 // ── Icons ──────────────────────────────────────────────────────────────────────
 const GripIcon = () => (
@@ -95,9 +95,9 @@ const TRANSLATIONS = {
     installWeb: 'Stremio Web',
     copyLink: 'Copy Link',
     copied: 'Copied!',
-    faqTitle: 'Frequently Asked Questions',
+    faqTitle: 'FREQUENTLY ASKED QUESTIONS',
     faq1q: 'What is CagesList?',
-    faq1a: 'CagesList is a Stremio add-on that allows you to create custom catalogs dedicated entirely to your favorite actors, directors, or cinematic sagas (collections).',
+    faq1a: 'CagesList is a Stremio add-on that allows you to create custom movie catalogs. You can track all the films of your favorite actors, follow your favorite directors, or create catalogs for entire sagas (like Star Wars or Marvel) in chronological order.',
     faq2q: 'Why do I need a TMDB API Key?',
     faq2a: 'The add-on requires a TMDB (The Movie Database) API Key to dynamically fetch the latest movies for the actors or collections you select. The key is completely free, secure, and is only saved inside the URL you use to install the addon in Stremio.',
     faq3q: 'How does the sorting work?',
@@ -139,9 +139,9 @@ const TRANSLATIONS = {
     installWeb: 'Stremio Web',
     copyLink: 'Copia Link',
     copied: 'Copiato!',
-    faqTitle: 'Domande Frequenti',
+    faqTitle: 'FREQUENTLY ASKED QUESTIONS',
     faq1q: 'Cos\'è CagesList?',
-    faq1a: 'CagesList è un add-on per Stremio che ti permette di creare cataloghi personalizzati dedicati interamente ai tuoi attori preferiti, registi o saghe cinematografiche.',
+    faq1a: 'CagesList è un add-on per Stremio che ti permette di creare cataloghi personalizzati di film. Puoi tracciare tutti i film dei tuoi attori preferiti, seguire i tuoi registi del cuore o creare cataloghi per intere saghe cinematografiche (come Star Wars o Marvel) in ordine di uscita.',
     faq2q: 'Perché mi serve una TMDB API Key?',
     faq2a: 'L\'add-on ha bisogno di una chiave API di TMDB (The Movie Database) per poter recuperare dinamicamente la lista dei film degli attori o delle saghe che selezioni. La chiave è completamente gratuita, sicura e viene salvata unicamente all\'interno dell\'URL che usi per installare l\'addon in Stremio.',
     faq3q: 'Come funziona l\'ordinamento dei film?',
@@ -196,7 +196,7 @@ export default function ConfigPage() {
   }, []);
 
   useEffect(() => {
-    if (!config.tmdbKey || config.catalogs.length === 0) {
+    if (!isConfigValid(config)) {
       setEncodedUrl('');
       return;
     }
@@ -334,30 +334,32 @@ export default function ConfigPage() {
           <button type="button" onClick={() => moveCatalog(index, 'down')} style={{ visibility: index < config.catalogs.length - 1 ? 'visible' : 'hidden' }}>▼</button>
         </div>
 
-        <div className="catalog-info">
-          <div className="catalog-name-row">
-            {editing ? (
-              <input
-                autoFocus
-                className="catalog-name-input"
-                value={editValue}
-                onChange={e => setEditValue(e.target.value)}
-                onBlur={() => { renameCatalog(index, editValue); setEditing(false); }}
-                onKeyDown={e => e.key === 'Enter' && e.currentTarget.blur()}
-              />
-            ) : (
-              <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                {item.image ? (
-                  <img src={item.image} alt={item.name} style={{ width: '28px', height: '28px', borderRadius: '50%', objectFit: 'cover' }} />
-                ) : (
-                  <div style={{ width: '28px', height: '28px', borderRadius: '50%', background: 'var(--surface-2)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '10px', color: 'var(--text-3)' }}>?</div>
-                )}
-                <span className="catalog-name" onClick={() => setEditing(true)}>{item.name}</span>
-              </div>
-            )}
-            <button type="button" className="btn-edit" onClick={() => setEditing(!editing)}><PencilIcon /></button>
+        <div className="catalog-info" style={{ flexDirection: 'row', alignItems: 'center', gap: '12px' }}>
+          {item.image ? (
+            <img src={item.image} alt={item.name} style={{ width: '32px', height: '32px', borderRadius: '50%', objectFit: 'cover', flexShrink: 0 }} />
+          ) : (
+            <div style={{ width: '32px', height: '32px', borderRadius: '50%', background: 'var(--surface-2)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '10px', color: 'var(--text-3)', flexShrink: 0 }}>?</div>
+          )}
+          <div style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column', gap: '2px' }}>
+            <div className="catalog-name-row">
+              {editing ? (
+                <input
+                  autoFocus
+                  className="catalog-name-input"
+                  value={editValue}
+                  onChange={e => setEditValue(e.target.value)}
+                  onBlur={() => { renameCatalog(index, editValue); setEditing(false); }}
+                  onKeyDown={e => e.key === 'Enter' && e.currentTarget.blur()}
+                />
+              ) : (
+                <>
+                  <span className="catalog-name" onClick={() => setEditing(true)}>{item.name}</span>
+                  <button type="button" className="edit-btn" onClick={() => setEditing(!editing)}><PencilIcon /></button>
+                </>
+              )}
+            </div>
+            <div className="catalog-sub">{typeLabel}</div>
           </div>
-          <div className="catalog-type">{typeLabel}</div>
         </div>
 
         <div className="catalog-right">

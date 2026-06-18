@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { decodeConfig, isConfigValid } from '@/lib/config';
 import { discoverByCast, discoverByCrew, getCollection, getExternalIds, mapMovieToMeta, StremioMeta } from '@/lib/tmdb';
+import demoCage from '@/lib/demo_cage.json';
 
 const CORS = {
   'Access-Control-Allow-Origin': '*',
@@ -67,7 +68,14 @@ export async function GET(
   try {
     let movies: any[] = [];
 
-    if (personType === 'cast' || personType === 'crew') {
+    if (!apiKey && personType === 'cast' && personId === 2963) {
+      let allMovies = [...demoCage];
+      if (sort === 'random') {
+        const seed = Math.floor(Date.now() / 86400000) + personId;
+        shuffle(allMovies, seed);
+      }
+      movies = allMovies.slice(skip, skip + PAGE_SIZE);
+    } else if (personType === 'cast' || personType === 'crew') {
       if (sort === 'random') {
         const pages = await Promise.all(
           [1, 2, 3, 4].map(p => 

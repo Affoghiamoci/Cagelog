@@ -21,7 +21,15 @@ export const DEFAULT_CONFIG: AddonConfig = {
   tmdbKey: '',
   language: DEFAULT_LANGUAGE,
   sort: DEFAULT_SORT,
-  catalogs: [],
+  catalogs: [
+    {
+      id: 2963,
+      name: 'Nicolas Cage',
+      type: 'cast',
+      sort: 'release_date.desc',
+      image: 'https://image.tmdb.org/t/p/w185/ar33qcWbEpRn11SRI73EI8JEast.jpg'
+    }
+  ],
 };
 
 export function encodeConfig(config: AddonConfig): string {
@@ -50,9 +58,13 @@ export function decodeConfig(encoded: string): AddonConfig {
 }
 
 export function isConfigValid(config: AddonConfig): boolean {
+  const hasDemoCage = config.catalogs.some(c => c.id === 2963 && c.type === 'cast');
+  const hasKey = typeof config.tmdbKey === 'string' && config.tmdbKey.length > 0;
+
+  if (!hasKey && hasDemoCage) return true;
+
   return (
-    typeof config.tmdbKey === 'string' &&
-    config.tmdbKey.length > 0 &&
+    hasKey &&
     Array.isArray(config.catalogs) &&
     config.catalogs.length > 0
   );
