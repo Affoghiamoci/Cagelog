@@ -466,8 +466,6 @@ input, select { font-family: inherit; }
   overflow: hidden;
 }
 
-.faq-item:first-of-type { border-top: 1px solid var(--border); }
-
 .faq-q {
   width: 100%;
   background: none;

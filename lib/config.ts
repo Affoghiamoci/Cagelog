@@ -27,7 +27,7 @@ export const DEFAULT_CONFIG: AddonConfig = {
       name: 'Nicolas Cage',
       type: 'cast',
       sort: 'release_date.desc',
-      image: 'https://image.tmdb.org/t/p/w185/ar33qcWbEpRn11SRI73EI8JEast.jpg'
+      image: '/cage.jpg'
     }
   ],
 };
