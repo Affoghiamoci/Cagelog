@@ -34,12 +34,20 @@ function shuffle(array: any[], seed: number) {
 
 export async function GET(
   req: Request,
-  { params }: { params: { config: string; type: string; id: string } }
+  { params }: { params: { config: string; type: string; id: string[] } }
 ) {
-  const rawId = params.id;
-  const id = rawId.replace(/\.json$/, '');
-  const url = new URL(req.url);
-  const skip = parseInt(url.searchParams.get('skip') ?? '0', 10);
+  let rawId = '';
+  let skip = 0;
+
+  for (const part of params.id) {
+    if (part.startsWith('skip=')) {
+      skip = parseInt(part.replace('skip=', '').replace('.json', ''), 10) || 0;
+    } else if (!rawId) {
+      rawId = part.replace(/\.json$/, '');
+    }
+  }
+
+  const id = rawId;
   const page = skipToPage(skip);
 
   const config = decodeConfig(params.config);
@@ -105,9 +113,10 @@ export async function GET(
     } else if (personType === 'collection') {
       // Collections ignore global sort, they are always chronological
       const data = await getCollection(personId, apiKey, language);
-      movies = (data?.parts || []).sort((a: any, b: any) =>
+      let allMovies = (data?.parts || []).sort((a: any, b: any) =>
         (a.release_date || '').localeCompare(b.release_date || '')
       );
+      movies = allMovies.slice(skip, skip + PAGE_SIZE);
     } else {
       return NextResponse.json({ metas: [] }, { headers: CORS });
     }
