@@ -628,7 +628,7 @@ export default function ConfigPage() {
             <span>{t.support}</span>
           </a>
           <a
-            href="#"
+            href="https://stremio-addons.net/addons/cagelog"
             target="_blank"
             rel="noreferrer"
             className="btn"

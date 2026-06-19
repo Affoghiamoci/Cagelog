@@ -7,7 +7,7 @@ export async function GET(req: Request) {
 
   const manifest = {
     id: 'community.cagelog',
-    version: '0.1.6',
+    version: '0.1.7',
     name: 'Cagelog',
     description: 'Your favorite actors, directors and sagas on Stremio',
     logo: `${baseUrl}/icon.png`,
