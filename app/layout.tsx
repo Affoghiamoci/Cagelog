@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'Cagelog — Attori, Registi e Saghe su Stremio',
+  title: 'Cagelog — Your favorite actors, directors and sagas on Stremio',
   description: 'Your favorite actors, directors and sagas on Stremio',
   icons: {
     icon: '/icon.png'
