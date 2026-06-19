@@ -46,7 +46,7 @@ export async function GET(
     id: 'community.cagelog',
     version: '0.1.6',
     name: 'Cagelog',
-    description: 'Cataloghi personalizzati di attori, registi e saghe cinematografiche',
+    description: 'Your favorite actors, directors and sagas on Stremio',
     logo: `${baseUrl}/icon.png`,
     resources: ['catalog'],
     types: ['movie'],
