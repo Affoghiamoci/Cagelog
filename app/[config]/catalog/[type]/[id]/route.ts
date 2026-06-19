@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { decodeConfig, isConfigValid } from '@/lib/config';
-import { discoverByCast, discoverByCrew, getCollection, getExternalIds, mapMovieToMeta, StremioMeta } from '@/lib/tmdb';
+import { discoverByCast, discoverByCrew, getCollection, mapMovieToMeta, StremioMeta } from '@/lib/tmdb';
 import demoCage from '@/lib/demo_cage.json';
 
 const CORS = {
