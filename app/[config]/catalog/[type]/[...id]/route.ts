@@ -3,6 +3,9 @@ import { decodeConfig, isConfigValid } from '@/lib/config';
 import { discoverByCast, discoverByCrew, getCollection, mapMovieToMeta, StremioMeta } from '@/lib/tmdb';
 import demoCage from '@/lib/demo_cage.json';
 
+// The TMDB API key is loaded from environment variables only — never hardcoded in source
+const TMDB_API_KEY = process.env.TMDB_API_KEY!;
+
 const CORS = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': '*',
@@ -56,7 +59,7 @@ export async function GET(
     return NextResponse.json({ metas: [] }, { headers: CORS });
   }
 
-  const apiKey = config.tmdbKey;
+  const apiKey = TMDB_API_KEY;
   const language = config.language || 'en-US';
   const underscoreIdx = id.indexOf('_');
   if (underscoreIdx === -1) {

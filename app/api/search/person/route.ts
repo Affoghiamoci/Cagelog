@@ -1,6 +1,9 @@
 import { NextResponse } from 'next/server';
 import { searchPerson } from '@/lib/tmdb';
 
+// The TMDB API key is loaded from environment variables only — never hardcoded in source
+const TMDB_API_KEY = process.env.TMDB_API_KEY!;
+
 const CORS = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': '*',
@@ -9,14 +12,13 @@ const CORS = {
 export async function GET(req: Request) {
   const url = new URL(req.url);
   const q = (url.searchParams.get('q') || '').trim();
-  const apiKey = (url.searchParams.get('key') || '').trim();
   const lang = (url.searchParams.get('lang') || 'en-US').trim();
   const page = parseInt(url.searchParams.get('page') || '1', 10);
 
-  if (!q || !apiKey) return NextResponse.json({ results: [] }, { headers: CORS });
+  if (!q) return NextResponse.json({ results: [] }, { headers: CORS });
 
   try {
-    const data = await searchPerson(q, apiKey, lang, page);
+    const data = await searchPerson(q, TMDB_API_KEY, lang, page);
     const results = (data?.results || []).map((p: any) => ({
       id: p.id,
       name: p.name,

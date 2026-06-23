@@ -7,18 +7,27 @@ export interface CatalogEntry {
 }
 
 export interface AddonConfig {
-  tmdbKey: string;
-  language: string;
+  // TMDB key is no longer stored in the public config — it's hardcoded server-side
+  language: string;       // poster/catalog language (TMDB)
   sort: string;
   catalogs: CatalogEntry[];
   catalogOrder?: string[];
+
+  // Ratings on Posters (RPDB / OpenPosterDB)
+  rpdbKey?: string;
+  rpdbProvider?: 'rpdb' | 'openposterdb';
+  rpdbStyle?: string;
+
+  // Global Settings
+  catalogPrefix?: string;
+  hideAddonName?: boolean;
+  hideHyphen?: boolean;
 }
 
 const DEFAULT_SORT = 'release_date.desc';
 const DEFAULT_LANGUAGE = 'en-US';
 
 export const DEFAULT_CONFIG: AddonConfig = {
-  tmdbKey: '',
   language: DEFAULT_LANGUAGE,
   sort: DEFAULT_SORT,
   catalogs: [
@@ -30,6 +39,12 @@ export const DEFAULT_CONFIG: AddonConfig = {
       image: '/cage.jpg'
     }
   ],
+  rpdbKey: '',
+  rpdbProvider: 'rpdb',
+  rpdbStyle: 'default',
+  catalogPrefix: 'Cagelog',
+  hideAddonName: false,
+  hideHyphen: false,
 };
 
 export function encodeConfig(config: AddonConfig): string {
@@ -59,12 +74,11 @@ export function decodeConfig(encoded: string): AddonConfig {
 
 export function isConfigValid(config: AddonConfig): boolean {
   const hasDemoCage = config.catalogs.some(c => c.id === 2963 && c.type === 'cast');
-  const hasKey = typeof config.tmdbKey === 'string' && config.tmdbKey.length > 0;
 
-  if (!hasKey && hasDemoCage) return true;
+  // With hardcoded TMDB key, we only need at least one catalog
+  if (hasDemoCage) return true;
 
   return (
-    hasKey &&
     Array.isArray(config.catalogs) &&
     config.catalogs.length > 0
   );
