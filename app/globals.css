@@ -603,5 +603,14 @@ input, select { font-family: inherit; }
   .install-btns { flex-direction: column; }
   .card-body { padding: 16px; }
   .card-head { padding: 14px 16px 12px; }
+
+  /* Catalog item: ensure name is always visible on mobile */
+  .catalog-item { gap: 6px; padding: 10px 8px; }
+  .catalog-arrows { margin-right: 4px; }
+  .catalog-arrows button { font-size: 9px; padding: 2px 3px; }
+  .catalog-info { min-width: 0; }
+  .catalog-name { font-size: 13px; }
+  .catalog-right { gap: 6px; flex-shrink: 0; max-width: 48%; }
+  .catalog-right .select { font-size: 11px; padding: 5px 22px 5px 7px; max-width: 115px; }
 }
 

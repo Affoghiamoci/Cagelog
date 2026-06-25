@@ -96,6 +96,8 @@ const TRANSLATIONS = {
     faq3a: 'The chronological and popularity-sorted catalogs update automatically whenever a new movie is added to TMDB. The "Random Mix" catalog changes its order exactly every 24 hours at midnight.',
     faq4q: 'Do I need an API key?',
     faq4a: 'No! Cagelog works out of the box — no API key required. Just add your catalogs and install.',
+    faq5q: 'What data does this addon collect?',
+    faq5a: 'This addon collects anonymous usage statistics (number of requests, addon name, timestamp) to monitor the service. No IP addresses, names, or personally identifiable data are stored.',
     sortNewest: 'Newest First',
     sortOldest: 'Oldest First',
     sortPopular: 'Popularity',
@@ -154,6 +156,8 @@ const TRANSLATIONS = {
     faq3a: 'I cataloghi ordinati per data e popolarità si aggiornano automaticamente ogni volta che un nuovo film viene inserito su TMDB. Il catalogo "Casuale" rimescola il suo ordine esattamente ogni 24 ore a mezzanotte.',
     faq4q: 'Ho bisogno di una API Key?',
     faq4a: 'No! Cagelog funziona subito, senza bisogno di nessuna API key. Aggiungi i tuoi cataloghi e installa.',
+    faq5q: 'Quali dati raccoglie questo addon?',
+    faq5a: 'Questo addon raccoglie statistiche di utilizzo anonime (numero di richieste, addon usato, timestamp) per monitorare il funzionamento del servizio. Non vengono salvati IP, nomi o dati personali identificabili.',
     sortNewest: 'Più recenti',
     sortOldest: 'Meno recenti',
     sortPopular: 'Popolarità',
@@ -622,11 +626,12 @@ export default function ConfigPage() {
                 <span className="toggle-label">{t.hideAddonNameLabel}</span>
               </div>
 
-              <div className="toggle-row">
+              <div className="toggle-row" style={config.hideAddonName ? { opacity: 0.35, pointerEvents: 'none' } : undefined}>
                 <label className="toggle">
                   <input
                     type="checkbox"
                     checked={!!config.hideHyphen}
+                    disabled={!!config.hideAddonName}
                     onChange={e => updateConfig('hideHyphen', e.target.checked)}
                   />
                   <span className="toggle-track" />
@@ -705,7 +710,7 @@ export default function ConfigPage() {
         <div className="faq-section">
           <div className="faq-title">{t.faqTitle}</div>
           
-          {[1, 2, 3, 4].map((num, i) => (
+          {[1, 2, 3, 4, 5].map((num, i) => (
             <div key={i} className={`faq-item ${openFaq === i ? 'open' : ''}`}>
               <button className="faq-q" onClick={() => toggleFaq(i)}>
                 <span>{t[`faq${num}q` as keyof typeof t]}</span>

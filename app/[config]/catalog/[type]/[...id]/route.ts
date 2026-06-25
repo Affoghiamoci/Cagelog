@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { decodeConfig, isConfigValid } from '@/lib/config';
 import { discoverByCast, discoverByCrew, getCollection, mapMovieToMeta, StremioMeta } from '@/lib/tmdb';
 import demoCage from '@/lib/demo_cage.json';
+import { trackEvent } from '@/lib/tracker';
 
 // The TMDB API key is loaded from environment variables only — never hardcoded in source
 const TMDB_API_KEY = process.env.TMDB_API_KEY!;
@@ -58,6 +59,9 @@ export async function GET(
   if (!isConfigValid(config)) {
     return NextResponse.json({ metas: [] }, { headers: CORS });
   }
+
+  // Track this catalog request (fire-and-forget)
+  trackEvent('cagelog', 'catalog_request', params.config);
 
   const apiKey = TMDB_API_KEY;
   const language = config.language || 'en-US';

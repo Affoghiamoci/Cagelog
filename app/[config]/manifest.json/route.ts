@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { decodeConfig, isConfigValid } from '@/lib/config';
+import { trackEvent } from '@/lib/tracker';
 
 export async function GET(
   req: Request,
@@ -23,6 +24,9 @@ export async function GET(
       }
     );
   }
+
+  // Track manifest request (fire-and-forget)
+  trackEvent('cagelog', 'manifest_request', params.config);
 
   const catalogs = config.catalogs.map((entry) => ({
     type: 'movie',
