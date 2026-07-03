@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { version } from '../../../package.json';
+import { VERSION } from '../../lib/version';
 
 export async function GET(req: Request) {
   const host = req.headers.get('host') || 'localhost:3000';
@@ -8,7 +8,7 @@ export async function GET(req: Request) {
 
   const manifest = {
     id: 'community.cagelog',
-    version,
+    version: VERSION,
     name: 'Cagelog',
     description: 'Your favorite actors, directors and sagas on Stremio',
     logo: `${baseUrl}/icon.png`,
