@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { decodeConfig, isConfigValid } from '@/lib/config';
-import { discoverByCast, discoverByCrew, discoverByGenre, getCollection, mapMovieToMeta, StremioMeta } from '@/lib/tmdb';
+import { discoverByCast, discoverByCrew, discoverByGenre, discoverByKeyword, getCollection, mapMovieToMeta, StremioMeta } from '@/lib/tmdb';
 import demoCage from '@/lib/demo_cage.json';
 import { trackEvent } from '@/lib/tracker';
 

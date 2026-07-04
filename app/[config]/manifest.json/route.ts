@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { decodeConfig, isConfigValid } from '@/lib/config';
 import { trackEvent } from '@/lib/tracker';
+import { VERSION } from '@/lib/version';
 
 export async function GET(
   req: Request,
@@ -48,9 +49,11 @@ export async function GET(
 
   const manifest = {
     id: 'community.cagelog',
-    version: '0.2.0',
-    name: 'Cagelog',
-    description: 'Your favorite actors, directors and sagas on Stremio',
+    version: VERSION,
+    name: config.catalogPrefix 
+      ? (config.hideAddonName ? config.catalogPrefix : `${config.catalogPrefix} Cagelog`)
+      : 'Cagelog',
+    description: 'Your favorite actors, directors, sagas and genres on Stremio',
     logo: `${baseUrl}/icon.png`,
     resources: ['catalog'],
     types: ['movie'],

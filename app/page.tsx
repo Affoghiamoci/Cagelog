@@ -85,13 +85,13 @@ const GENRES = [
   { id: -37, name: 'Western', nameEn: 'Western', emoji: '🤠' },
   { id: -112339, name: 'Slasher', nameEn: 'Slasher', emoji: '🪓' },
   { id: -109715, name: 'Supereroi', nameEn: 'Superhero', emoji: '🦸' },
-  { id: -100470, name: 'Spionaggio', nameEn: 'Spy', emoji: '🕶️' }
+  { id: -110292, name: 'Splatter', nameEn: 'Splatter', emoji: '🩸' }
 ];
 
 // ── Translations ───────────────────────────────────────────────────────────────
 const TRANSLATIONS = {
   en: {
-    sub: 'Your favorite actors, directors and sagas on Stremio',
+    sub: 'Your favorite actors, directors, sagas and genres on Stremio',
     catalogsTitle: 'Your Catalogs',
     emptyCatalogs: 'No catalogs added yet. Use the search below to start.',
     addCatalogLabel: 'Add a new catalog',
@@ -150,9 +150,11 @@ const TRANSLATIONS = {
     hideAddonNameLabel: 'Hide Addon Name',
     hideHyphenLabel: 'Hide Hyphen',
     posterLanguageLabel: 'Poster Language',
+    moreFrom: 'More from Affogo:',
+    multiboxdDesc: 'Your Letterboxd lists directly on Stremio. Auto-sync and much more!',
   },
   it: {
-    sub: 'I tuoi attori, registi e saghe preferite su Stremio',
+    sub: 'I tuoi attori, registi, saghe e generi preferiti su Stremio',
     catalogsTitle: 'I Tuoi Cataloghi',
     emptyCatalogs: 'Nessun catalogo aggiunto. Usa la ricerca qui sotto per iniziare.',
     addCatalogLabel: 'Aggiungi nuovo catalogo',
@@ -211,6 +213,8 @@ const TRANSLATIONS = {
     hideAddonNameLabel: 'Nascondi Nome Addon',
     hideHyphenLabel: 'Nascondi Trattino',
     posterLanguageLabel: 'Lingua Poster',
+    moreFrom: 'Altro da Affogo:',
+    multiboxdDesc: 'Le tue liste Letterboxd direttamente su Stremio. Sincronizzazione automatica e molto altro!',
   }
 };
 
@@ -831,9 +835,9 @@ export default function ConfigPage() {
         </div>
 
         <div style={{ marginTop: '40px', padding: '24px', backgroundColor: 'var(--surface-2)', borderRadius: '16px', border: '1px solid var(--surface-3)', textAlign: 'center' }}>
-          <h3 style={{ fontSize: '18px', fontWeight: 600, color: 'var(--text-1)', marginBottom: '16px' }}>Altro da Affogo:</h3>
+          <h3 style={{ fontSize: '18px', fontWeight: 600, color: 'var(--text-1)', marginBottom: '16px' }}>{t.moreFrom}</h3>
           <a
-            href="https://multiboxd.strem.io/"
+            href="https://multiboxd.affogo.fyi/"
             target="_blank"
             rel="noreferrer"
             style={{ 
@@ -856,9 +860,11 @@ export default function ConfigPage() {
               e.currentTarget.style.borderColor = 'transparent';
             }}
           >
-            <div style={{ fontSize: '28px', marginBottom: '8px' }}>🍿</div>
+            <div style={{ marginBottom: '12px' }}>
+              <img src="/multiboxd.png" alt="Multiboxd" style={{ width: '48px', height: '48px', borderRadius: '12px' }} />
+            </div>
             <div style={{ fontSize: '18px', fontWeight: 700, color: 'var(--text-1)', marginBottom: '6px' }}>Multiboxd</div>
-            <div style={{ fontSize: '14px', color: 'var(--text-2)', lineHeight: '1.4' }}>Le tue liste Letterboxd direttamente su Stremio. Sincronizzazione automatica e molto altro!</div>
+            <div style={{ fontSize: '14px', color: 'var(--text-2)', lineHeight: '1.4' }}>{t.multiboxdDesc}</div>
           </a>
         </div>
 
