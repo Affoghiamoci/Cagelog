@@ -318,16 +318,16 @@ export default function ConfigPage() {
     setIsSearching(false);
   }
 
-  function addCatalog(item: any, overrideType?: 'cast' | 'crew', role?: 'actor' | 'director' | 'composer') {
+  function addCatalog(item: any) {
     const isPerson = searchType === 'person' || searchType === 'genre';
     let type: 'cast' | 'crew' | 'collection' = 'collection';
-    
+    let role: 'actor' | 'director' | 'composer' | undefined = undefined;
+
     if (isPerson) {
-      if (overrideType) {
-        type = overrideType;
-      } else {
-        type = item.knownFor === 'Acting' ? 'cast' : 'crew';
-      }
+      if (item.knownFor === 'Acting') { type = 'cast'; role = 'actor'; }
+      else if (item.knownFor === 'Directing') { type = 'crew'; role = 'director'; }
+      else if (item.knownFor === 'Sound') { type = 'crew'; role = 'composer'; }
+      else { type = 'crew'; role = 'director'; }
     }
 
     const newCatalog: CatalogEntry = {
@@ -339,7 +339,7 @@ export default function ConfigPage() {
       role,
     };
 
-    if (!config.catalogs.some(c => c.id === newCatalog.id && c.type === newCatalog.type && c.role === newCatalog.role)) {
+    if (!config.catalogs.some(c => c.id === newCatalog.id && c.type === newCatalog.type)) {
       updateConfig('catalogs', [...config.catalogs, newCatalog]);
     }
     setSearchQuery('');
@@ -567,7 +567,7 @@ export default function ConfigPage() {
                         <div style={{ padding: '12px', textAlign: 'center', fontSize: '12px', color: 'var(--text-3)' }}>{t.searching}</div>
                       ) : searchResults.length > 0 ? (
                         searchResults.map(item => (
-                          <div key={item.id} className="search-item" onClick={() => { if (searchType !== 'person') addCatalog(item); }} style={{ cursor: searchType === 'person' ? 'default' : 'pointer' }}>
+                          <div key={item.id} className="search-item" onClick={() => addCatalog(item)} style={{ cursor: 'pointer' }}>
                             <img 
                               src={item.profilePath || item.posterPath || "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='48' viewBox='0 0 32 48'%3E%3Crect width='32' height='48' fill='%23333'/%3E%3C/svg%3E"} 
                               alt={item.name} 
@@ -579,31 +579,6 @@ export default function ConfigPage() {
                                 <span className="search-item-sub">{item.knownForTitles.join(', ')}</span>
                               )}
                             </div>
-                            {searchType === 'person' && (
-                              <div style={{ display: 'flex', gap: '6px', marginLeft: 'auto', flexShrink: 0 }}>
-                                <button
-                                  className="btn btn-sm btn-surface"
-                                  onClick={(e) => { e.stopPropagation(); addCatalog(item, 'cast', 'actor'); }}
-                                  disabled={!item.hasActing}
-                                  title={!item.hasActing ? 'Nessun film come attore' : ''}
-                                  style={{ fontSize: '11px', padding: '4px 8px', opacity: item.hasActing ? 1 : 0.3, cursor: item.hasActing ? 'pointer' : 'not-allowed', ...(item.primaryRole === 'Acting' ? { border: '1px solid var(--accent)', color: 'var(--accent)' } : { opacity: item.hasActing ? 0.6 : 0.3 }) }}
-                                >{t.addAsActor}</button>
-                                <button
-                                  className="btn btn-sm btn-surface"
-                                  onClick={(e) => { e.stopPropagation(); addCatalog(item, 'crew', 'director'); }}
-                                  disabled={!item.hasDirecting}
-                                  title={!item.hasDirecting ? 'Nessun film come regista' : ''}
-                                  style={{ fontSize: '11px', padding: '4px 8px', opacity: item.hasDirecting ? 1 : 0.3, cursor: item.hasDirecting ? 'pointer' : 'not-allowed', ...(item.primaryRole === 'Directing' ? { border: '1px solid var(--accent)', color: 'var(--accent)' } : { opacity: item.hasDirecting ? 0.6 : 0.3 }) }}
-                                >{t.addAsDirector}</button>
-                                <button
-                                  className="btn btn-sm btn-surface"
-                                  onClick={(e) => { e.stopPropagation(); addCatalog(item, 'crew', 'composer'); }}
-                                  disabled={!item.hasComposing}
-                                  title={!item.hasComposing ? 'Nessun film come compositore' : ''}
-                                  style={{ fontSize: '11px', padding: '4px 8px', opacity: item.hasComposing ? 1 : 0.3, cursor: item.hasComposing ? 'pointer' : 'not-allowed', ...(item.primaryRole === 'Sound' ? { border: '1px solid var(--accent)', color: 'var(--accent)' } : {}) }}
-                                >{t.addAsComposer}</button>
-                              </div>
-                            )}
                           </div>
                         ))
                       ) : (
