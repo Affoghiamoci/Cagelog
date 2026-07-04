@@ -123,7 +123,7 @@ const TRANSLATIONS = {
     faq1q: 'What is Cagelog?',
     faq1a: 'Cagelog is a Stremio add-on that allows you to create custom movie catalogs. You can track all the films of your favorite actors, follow your favorite directors or composers, browse specific movie genres, or create catalogs for entire sagas (like Star Wars or Marvel) in chronological order.',
     faq2q: 'How does the sorting work?',
-    faq2a: 'For each actor, director, composer, or genre catalog, you can use the dropdown menu next to the trash can to change how their movies are sorted. You can sort by newest first, oldest first, or by popularity. Sagas are always sorted chronologically.',,
+    faq2a: 'For each actor, director, composer, or genre catalog, you can use the dropdown menu next to the trash can to change how their movies are sorted. You can sort by newest first, oldest first, or by popularity. Sagas are always sorted chronologically.',
     faq3q: 'How often do the catalogs update?',
     faq3a: 'The chronological and popularity-sorted catalogs update automatically whenever a new movie is added to TMDB. The "Random Mix" catalog changes its order exactly every 24 hours at midnight.',
     faq4q: 'Do I need an API key?',
