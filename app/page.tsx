@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useCallback } from 'react';
 import { encodeConfig, decodeConfig, AddonConfig, CatalogEntry, DEFAULT_CONFIG, isConfigValid } from '@/lib/config';
+import { VERSION } from '@/lib/version';
 
 // ── Icons ──────────────────────────────────────────────────────────────────────
 const GripIcon = () => (
@@ -448,7 +449,7 @@ export default function ConfigPage() {
             </div>
             <span className="logo-name" style={{ marginRight: '8px' }}>Cagelog</span>
             <span style={{ fontSize: '13px', color: 'var(--text-2)', display: 'flex', alignItems: 'center', gap: '6px', fontWeight: 500, background: 'var(--surface-2)', padding: '4px 8px', borderRadius: '12px', border: '1px solid var(--border)' }}>
-              v0.2.0
+              v{VERSION}
               <span style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: '#10b981', boxShadow: '0 0 8px rgba(16, 185, 129, 0.5)' }}></span>
             </span>
           </div>
