@@ -20,7 +20,7 @@ export async function GET(req: Request) {
   try {
     const data = await searchPerson(q, TMDB_API_KEY, lang, page);
     let results = (data?.results || [])
-      .filter((p: any) => p.known_for_department === 'Acting' || p.known_for_department === 'Directing')
+      .filter((p: any) => p.known_for_department === 'Acting' || p.known_for_department === 'Directing' || p.known_for_department === 'Sound')
       .map((p: any) => ({
       id: p.id,
       name: p.name,
@@ -32,8 +32,10 @@ export async function GET(req: Request) {
         .filter((m: any) => m.media_type === 'movie')
         .slice(0, 3)
         .map((m: any) => m.title || m.name),
-      hasActing: p.known_for_department === 'Acting' || (p.known_for || []).some((m: any) => m.media_type === 'movie'),
-      hasDirecting: p.known_for_department === 'Directing',
+      hasActing: p.known_for_department === 'Acting' || p.known_for_department === 'Directing',
+      hasDirecting: p.known_for_department === 'Acting' || p.known_for_department === 'Directing',
+      hasComposing: p.known_for_department === 'Sound',
+      primaryRole: p.known_for_department, // used for highlighting the primary button
     }));
 
     return NextResponse.json({ results }, { headers: CORS });

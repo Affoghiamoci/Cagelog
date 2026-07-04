@@ -107,10 +107,12 @@ const TRANSLATIONS = {
     noResults: 'No results found.',
     typeActor: 'Actor',
     typeDirector: 'Director',
+    typeComposer: 'Composer',
     typeSaga: 'Cinematic Saga',
     typeGenre: 'Genre',
     addAsActor: '🎭 Actor',
     addAsDirector: '🎬 Director',
+    addAsComposer: '🎵 Composer',
     installTitle: 'Addon URL - ready to install',
     installPlaceholder: 'Add at least one catalog to generate your link...',
     installStremio: 'Install in Stremio',
@@ -119,9 +121,9 @@ const TRANSLATIONS = {
     copied: 'Copied!',
     faqTitle: 'FREQUENTLY ASKED QUESTIONS',
     faq1q: 'What is Cagelog?',
-    faq1a: 'Cagelog is a Stremio add-on that allows you to create custom movie catalogs. You can track all the films of your favorite actors, follow your favorite directors, browse specific movie genres, or create catalogs for entire sagas (like Star Wars or Marvel) in chronological order.',
+    faq1a: 'Cagelog is a Stremio add-on that allows you to create custom movie catalogs. You can track all the films of your favorite actors, follow your favorite directors or composers, browse specific movie genres, or create catalogs for entire sagas (like Star Wars or Marvel) in chronological order.',
     faq2q: 'How does the sorting work?',
-    faq2a: 'For each actor, director, or genre catalog, you can use the dropdown menu next to the trash can to change how their movies are sorted. You can sort by newest first, oldest first, or by popularity. Sagas are always sorted chronologically.',
+    faq2a: 'For each actor, director, composer, or genre catalog, you can use the dropdown menu next to the trash can to change how their movies are sorted. You can sort by newest first, oldest first, or by popularity. Sagas are always sorted chronologically.',,
     faq3q: 'How often do the catalogs update?',
     faq3a: 'The chronological and popularity-sorted catalogs update automatically whenever a new movie is added to TMDB. The "Random Mix" catalog changes its order exactly every 24 hours at midnight.',
     faq4q: 'Do I need an API key?',
@@ -173,10 +175,12 @@ const TRANSLATIONS = {
     noResults: 'Nessun risultato.',
     typeActor: 'Attore',
     typeDirector: 'Regista',
+    typeComposer: 'Compositore',
     typeSaga: 'Saga Cinematografica',
     typeGenre: 'Genere',
     addAsActor: '🎭 Attore',
     addAsDirector: '🎬 Regista',
+    addAsComposer: '🎵 Compositore',
     installTitle: 'URL Addon - pronto per l\'installazione',
     installPlaceholder: 'Aggiungi almeno un catalogo per generare il tuo link...',
     installStremio: 'Installa in Stremio',
@@ -185,9 +189,9 @@ const TRANSLATIONS = {
     copied: 'Copiato!',
     faqTitle: 'FREQUENTLY ASKED QUESTIONS',
     faq1q: 'Cos\'è Cagelog?',
-    faq1a: 'Cagelog è un add-on per Stremio che ti permette di creare cataloghi personalizzati di film. Puoi tracciare tutti i film dei tuoi attori preferiti, seguire i tuoi registi del cuore, esplorare generi specifici o creare cataloghi per intere saghe cinematografiche (come Star Wars o Marvel) in ordine di uscita.',
+    faq1a: 'Cagelog è un add-on per Stremio che ti permette di creare cataloghi personalizzati di film. Puoi tracciare tutti i film dei tuoi attori preferiti, seguire i tuoi registi o compositori del cuore, esplorare generi specifici o creare cataloghi per intere saghe cinematografiche (come Star Wars o Marvel) in ordine di uscita.',
     faq2q: 'Come funziona l\'ordinamento dei film?',
-    faq2a: 'Per ogni catalogo di un attore, regista o genere, puoi usare il menù a tendina vicino al cestino per cambiare l\'ordine in cui vengono mostrati i film. Puoi ordinarli dai più recenti, dai più vecchi, oppure per popolarità. Le saghe sono sempre ordinate cronologicamente.',
+    faq2a: 'Per ogni catalogo di un attore, regista, compositore o genere, puoi usare il menù a tendina vicino al cestino per cambiare l\'ordine in cui vengono mostrati i film. Puoi ordinarli dai più recenti, dai più vecchi, oppure per popolarità. Le saghe sono sempre ordinate cronologicamente.',
     faq3q: 'Ogni quanto si aggiornano i cataloghi?',
     faq3a: 'I cataloghi ordinati per data e popolarità si aggiornano automaticamente ogni volta che un nuovo film viene inserito su TMDB. Il catalogo "Casuale" rimescola il suo ordine esattamente ogni 24 ore a mezzanotte.',
     faq4q: 'Ho bisogno di una API Key?',
@@ -314,7 +318,7 @@ export default function ConfigPage() {
     setIsSearching(false);
   }
 
-  function addCatalog(item: any, overrideType?: 'cast' | 'crew') {
+  function addCatalog(item: any, overrideType?: 'cast' | 'crew', role?: 'actor' | 'director' | 'composer') {
     const isPerson = searchType === 'person' || searchType === 'genre';
     let type: 'cast' | 'crew' | 'collection' = 'collection';
     
@@ -331,10 +335,11 @@ export default function ConfigPage() {
       name: item.name,
       type,
       sort: config.sort || 'release_date.desc',
-      image: item.profilePath || item.posterPath || undefined
+      image: item.profilePath || item.posterPath || undefined,
+      role,
     };
 
-    if (!config.catalogs.some(c => c.id === newCatalog.id && c.type === newCatalog.type)) {
+    if (!config.catalogs.some(c => c.id === newCatalog.id && c.type === newCatalog.type && c.role === newCatalog.role)) {
       updateConfig('catalogs', [...config.catalogs, newCatalog]);
     }
     setSearchQuery('');
@@ -379,7 +384,9 @@ export default function ConfigPage() {
     let typeLabel = '';
     if (item.type === 'cast') typeLabel = t.typeActor;
     if (item.type === 'crew') {
-      typeLabel = item.id < 0 ? t.typeGenre : t.typeDirector;
+      if (item.id < 0) typeLabel = t.typeGenre;
+      else if (item.role === 'composer') typeLabel = t.typeComposer;
+      else typeLabel = t.typeDirector;
     }
     if (item.type === 'collection') typeLabel = t.typeSaga;
 
@@ -576,18 +583,25 @@ export default function ConfigPage() {
                               <div style={{ display: 'flex', gap: '6px', marginLeft: 'auto', flexShrink: 0 }}>
                                 <button
                                   className="btn btn-sm btn-surface"
-                                  onClick={(e) => { e.stopPropagation(); addCatalog(item, 'cast'); }}
+                                  onClick={(e) => { e.stopPropagation(); addCatalog(item, 'cast', 'actor'); }}
                                   disabled={!item.hasActing}
-                                  title={!item.hasActing ? 'Nessun film come attore' : undefined}
-                                  style={{ fontSize: '11px', padding: '4px 8px', opacity: item.hasActing ? 1 : 0.35, cursor: item.hasActing ? 'pointer' : 'not-allowed' }}
+                                  title={!item.hasActing ? 'Nessun film come attore' : ''}
+                                  style={{ fontSize: '11px', padding: '4px 8px', opacity: item.hasActing ? 1 : 0.3, cursor: item.hasActing ? 'pointer' : 'not-allowed', ...(item.primaryRole === 'Acting' ? { border: '1px solid var(--accent)', color: 'var(--accent)' } : { opacity: item.hasActing ? 0.6 : 0.3 }) }}
                                 >{t.addAsActor}</button>
                                 <button
                                   className="btn btn-sm btn-surface"
-                                  onClick={(e) => { e.stopPropagation(); addCatalog(item, 'crew'); }}
+                                  onClick={(e) => { e.stopPropagation(); addCatalog(item, 'crew', 'director'); }}
                                   disabled={!item.hasDirecting}
-                                  title={!item.hasDirecting ? 'Nessun film come regista' : undefined}
-                                  style={{ fontSize: '11px', padding: '4px 8px', opacity: item.hasDirecting ? 1 : 0.35, cursor: item.hasDirecting ? 'pointer' : 'not-allowed' }}
+                                  title={!item.hasDirecting ? 'Nessun film come regista' : ''}
+                                  style={{ fontSize: '11px', padding: '4px 8px', opacity: item.hasDirecting ? 1 : 0.3, cursor: item.hasDirecting ? 'pointer' : 'not-allowed', ...(item.primaryRole === 'Directing' ? { border: '1px solid var(--accent)', color: 'var(--accent)' } : { opacity: item.hasDirecting ? 0.6 : 0.3 }) }}
                                 >{t.addAsDirector}</button>
+                                <button
+                                  className="btn btn-sm btn-surface"
+                                  onClick={(e) => { e.stopPropagation(); addCatalog(item, 'crew', 'composer'); }}
+                                  disabled={!item.hasComposing}
+                                  title={!item.hasComposing ? 'Nessun film come compositore' : ''}
+                                  style={{ fontSize: '11px', padding: '4px 8px', opacity: item.hasComposing ? 1 : 0.3, cursor: item.hasComposing ? 'pointer' : 'not-allowed', ...(item.primaryRole === 'Sound' ? { border: '1px solid var(--accent)', color: 'var(--accent)' } : {}) }}
+                                >{t.addAsComposer}</button>
                               </div>
                             )}
                           </div>

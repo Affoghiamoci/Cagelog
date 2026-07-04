@@ -4,6 +4,7 @@ export interface CatalogEntry {
   type: 'cast' | 'crew' | 'collection';
   sort?: string;
   image?: string;
+  role?: 'actor' | 'director' | 'composer'; // used for UI label only
 }
 
 export interface AddonConfig {
