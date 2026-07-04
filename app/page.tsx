@@ -106,6 +106,7 @@ const TRANSLATIONS = {
     typeActor: 'Actor',
     typeDirector: 'Director / Crew',
     typeSaga: 'Cinematic Saga',
+    typeGenre: 'Genre',
     installTitle: 'Addon URL - ready to install',
     installPlaceholder: 'Add at least one catalog to generate your link...',
     installStremio: 'Install in Stremio',
@@ -169,6 +170,7 @@ const TRANSLATIONS = {
     typeActor: 'Attore',
     typeDirector: 'Regista / Crew',
     typeSaga: 'Saga Cinematografica',
+    typeGenre: 'Genere',
     installTitle: 'URL Addon - pronto per l\'installazione',
     installPlaceholder: 'Aggiungi almeno un catalogo per generare il tuo link...',
     installStremio: 'Installa in Stremio',
@@ -366,7 +368,9 @@ export default function ConfigPage() {
 
     let typeLabel = '';
     if (item.type === 'cast') typeLabel = t.typeActor;
-    if (item.type === 'crew') typeLabel = t.typeDirector;
+    if (item.type === 'crew') {
+      typeLabel = item.id < 0 ? t.typeGenre : t.typeDirector;
+    }
     if (item.type === 'collection') typeLabel = t.typeSaga;
 
     const currentSort = item.sort || 'release_date.desc';
