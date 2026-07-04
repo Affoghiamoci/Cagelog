@@ -574,8 +574,20 @@ export default function ConfigPage() {
                             </div>
                             {searchType === 'person' && (
                               <div style={{ display: 'flex', gap: '6px', marginLeft: 'auto', flexShrink: 0 }}>
-                                <button className="btn btn-sm btn-surface" onClick={(e) => { e.stopPropagation(); addCatalog(item, 'cast'); }} style={{ fontSize: '11px', padding: '4px 8px' }}>{t.addAsActor}</button>
-                                <button className="btn btn-sm btn-surface" onClick={(e) => { e.stopPropagation(); addCatalog(item, 'crew'); }} style={{ fontSize: '11px', padding: '4px 8px' }}>{t.addAsDirector}</button>
+                                <button
+                                  className="btn btn-sm btn-surface"
+                                  onClick={(e) => { e.stopPropagation(); addCatalog(item, 'cast'); }}
+                                  disabled={!item.hasActing}
+                                  title={!item.hasActing ? 'Nessun film come attore' : undefined}
+                                  style={{ fontSize: '11px', padding: '4px 8px', opacity: item.hasActing ? 1 : 0.35, cursor: item.hasActing ? 'pointer' : 'not-allowed' }}
+                                >{t.addAsActor}</button>
+                                <button
+                                  className="btn btn-sm btn-surface"
+                                  onClick={(e) => { e.stopPropagation(); addCatalog(item, 'crew'); }}
+                                  disabled={!item.hasDirecting}
+                                  title={!item.hasDirecting ? 'Nessun film come regista' : undefined}
+                                  style={{ fontSize: '11px', padding: '4px 8px', opacity: item.hasDirecting ? 1 : 0.35, cursor: item.hasDirecting ? 'pointer' : 'not-allowed' }}
+                                >{t.addAsDirector}</button>
                               </div>
                             )}
                           </div>
