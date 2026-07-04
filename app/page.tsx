@@ -65,6 +65,29 @@ const ChevronDownIcon = () => (
   </svg>
 );
 
+const GENRES = [
+  { id: -28, name: 'Azione', nameEn: 'Action', emoji: '💥' },
+  { id: -12, name: 'Avventura', nameEn: 'Adventure', emoji: '🗺️' },
+  { id: -16, name: 'Animazione', nameEn: 'Animation', emoji: '🦄' },
+  { id: -35, name: 'Commedia', nameEn: 'Comedy', emoji: '😂' },
+  { id: -80, name: 'Poliziesco', nameEn: 'Crime', emoji: '🕵️' },
+  { id: -99, name: 'Documentario', nameEn: 'Documentary', emoji: '🎥' },
+  { id: -18, name: 'Drammatico', nameEn: 'Drama', emoji: '🎭' },
+  { id: -10751, name: 'Famiglia', nameEn: 'Family', emoji: '👨‍👩‍👧‍👦' },
+  { id: -14, name: 'Fantasy', nameEn: 'Fantasy', emoji: '🧝' },
+  { id: -36, name: 'Storico', nameEn: 'History', emoji: '🏛️' },
+  { id: -27, name: 'Horror', nameEn: 'Horror', emoji: '🧟' },
+  { id: -10402, name: 'Musicale', nameEn: 'Music', emoji: '🎵' },
+  { id: -9648, name: 'Mistero', nameEn: 'Mystery', emoji: '🔍' },
+  { id: -10749, name: 'Sentimentale', nameEn: 'Romance', emoji: '❤️' },
+  { id: -878, name: 'Fantascienza', nameEn: 'Science Fiction', emoji: '👽' },
+  { id: -53, name: 'Thriller', nameEn: 'Thriller', emoji: '🔪' },
+  { id: -37, name: 'Western', nameEn: 'Western', emoji: '🤠' },
+  { id: -112339, name: 'Slasher', nameEn: 'Slasher', emoji: '🪓' },
+  { id: -109715, name: 'Supereroi', nameEn: 'Superhero', emoji: '🦸' },
+  { id: -100470, name: 'Spionaggio', nameEn: 'Spy', emoji: '🕶️' }
+];
+
 // ── Translations ───────────────────────────────────────────────────────────────
 const TRANSLATIONS = {
   en: {
@@ -73,7 +96,8 @@ const TRANSLATIONS = {
     emptyCatalogs: 'No catalogs added yet. Use the search below to start.',
     addCatalogLabel: 'Add a new catalog',
     searchActor: '👤 Actor/Director',
-    searchCollection: '🎞️ Saga (Collection)',
+    searchCollection: '🎞️ Saga',
+    searchGenre: '🎭 Genre',
     searchActorPlaceholder: 'Search Nicolas Cage, Steven Spielberg...',
     searchCollectionPlaceholder: 'Search Harry Potter, Star Wars...',
     searching: 'Searching...',
@@ -89,9 +113,9 @@ const TRANSLATIONS = {
     copied: 'Copied!',
     faqTitle: 'FREQUENTLY ASKED QUESTIONS',
     faq1q: 'What is Cagelog?',
-    faq1a: 'Cagelog is a Stremio add-on that allows you to create custom movie catalogs. You can track all the films of your favorite actors, follow your favorite directors, or create catalogs for entire sagas (like Star Wars or Marvel) in chronological order.',
+    faq1a: 'Cagelog is a Stremio add-on that allows you to create custom movie catalogs. You can track all the films of your favorite actors, follow your favorite directors, browse specific movie genres, or create catalogs for entire sagas (like Star Wars or Marvel) in chronological order.',
     faq2q: 'How does the sorting work?',
-    faq2a: 'For each actor or director catalog, you can use the dropdown menu next to the trash can to change how their movies are sorted. You can sort by newest first, oldest first, or by popularity. Sagas are always sorted chronologically.',
+    faq2a: 'For each actor, director, or genre catalog, you can use the dropdown menu next to the trash can to change how their movies are sorted. You can sort by newest first, oldest first, or by popularity. Sagas are always sorted chronologically.',
     faq3q: 'How often do the catalogs update?',
     faq3a: 'The chronological and popularity-sorted catalogs update automatically whenever a new movie is added to TMDB. The "Random Mix" catalog changes its order exactly every 24 hours at midnight.',
     faq4q: 'Do I need an API key?',
@@ -133,7 +157,8 @@ const TRANSLATIONS = {
     emptyCatalogs: 'Nessun catalogo aggiunto. Usa la ricerca qui sotto per iniziare.',
     addCatalogLabel: 'Aggiungi nuovo catalogo',
     searchActor: '👤 Attore/Regista',
-    searchCollection: '🎞️ Saga (Collection)',
+    searchCollection: '🎞️ Saga',
+    searchGenre: '🎭 Genere',
     searchActorPlaceholder: 'Cerca Nicolas Cage, Steven Spielberg...',
     searchCollectionPlaceholder: 'Cerca Harry Potter, Star Wars...',
     searching: 'Ricerca in corso...',
@@ -149,9 +174,9 @@ const TRANSLATIONS = {
     copied: 'Copiato!',
     faqTitle: 'FREQUENTLY ASKED QUESTIONS',
     faq1q: 'Cos\'è Cagelog?',
-    faq1a: 'Cagelog è un add-on per Stremio che ti permette di creare cataloghi personalizzati di film. Puoi tracciare tutti i film dei tuoi attori preferiti, seguire i tuoi registi del cuore o creare cataloghi per intere saghe cinematografiche (come Star Wars o Marvel) in ordine di uscita.',
+    faq1a: 'Cagelog è un add-on per Stremio che ti permette di creare cataloghi personalizzati di film. Puoi tracciare tutti i film dei tuoi attori preferiti, seguire i tuoi registi del cuore, esplorare generi specifici o creare cataloghi per intere saghe cinematografiche (come Star Wars o Marvel) in ordine di uscita.',
     faq2q: 'Come funziona l\'ordinamento dei film?',
-    faq2a: 'Per ogni catalogo di un attore o regista, puoi usare il menù a tendina vicino al cestino per cambiare l\'ordine in cui vengono mostrati i film. Puoi ordinarli dai più recenti, dai più vecchi, oppure per popolarità. Le saghe sono sempre ordinate cronologicamente.',
+    faq2a: 'Per ogni catalogo di un attore, regista o genere, puoi usare il menù a tendina vicino al cestino per cambiare l\'ordine in cui vengono mostrati i film. Puoi ordinarli dai più recenti, dai più vecchi, oppure per popolarità. Le saghe sono sempre ordinate cronologicamente.',
     faq3q: 'Ogni quanto si aggiornano i cataloghi?',
     faq3a: 'I cataloghi ordinati per data e popolarità si aggiornano automaticamente ogni volta che un nuovo film viene inserito su TMDB. Il catalogo "Casuale" rimescola il suo ordine esattamente ogni 24 ore a mezzanotte.',
     faq4q: 'Ho bisogno di una API Key?',
@@ -204,7 +229,7 @@ export default function ConfigPage() {
 
   // Search state
   const [searchQuery, setSearchQuery] = useState('');
-  const [searchType, setSearchType] = useState<'person' | 'collection'>('person');
+  const [searchType, setSearchType] = useState<'person' | 'collection' | 'genre'>('person');
   const [searchResults, setSearchResults] = useState<any[]>([]);
   const [isSearching, setIsSearching] = useState(false);
 
@@ -277,7 +302,7 @@ export default function ConfigPage() {
   }
 
   function addCatalog(item: any) {
-    const isPerson = searchType === 'person';
+    const isPerson = searchType === 'person' || searchType === 'genre';
     let type: 'cast' | 'crew' | 'collection' = 'collection';
     
     if (isPerson) {
@@ -453,55 +478,89 @@ export default function ConfigPage() {
             <div className="field">
               <label className="label">{t.addCatalogLabel}</label>
               
-              <div className="input-row" style={{ marginBottom: '8px' }}>
+              <div className="input-row" style={{ marginBottom: '12px', gap: '8px' }}>
                 <button 
-                  className={`btn btn-sm ${searchType === 'person' ? 'btn-primary' : 'btn-ghost'}`} 
+                  className={`btn ${searchType === 'person' ? 'btn-primary' : 'btn-ghost'}`} 
                   onClick={() => setSearchType('person')}
-                  style={{ flex: 1 }}
+                  style={{ flex: 1, padding: '6px 12px', borderRadius: '24px', fontSize: '13px', fontWeight: '500' }}
                 >
                   {t.searchActor}
                 </button>
                 <button 
-                  className={`btn btn-sm ${searchType === 'collection' ? 'btn-primary' : 'btn-ghost'}`} 
+                  className={`btn ${searchType === 'collection' ? 'btn-primary' : 'btn-ghost'}`} 
                   onClick={() => setSearchType('collection')}
-                  style={{ flex: 1 }}
+                  style={{ flex: 1, padding: '6px 12px', borderRadius: '24px', fontSize: '13px', fontWeight: '500' }}
                 >
                   {t.searchCollection}
                 </button>
+                <button 
+                  className={`btn ${searchType === 'genre' ? 'btn-primary' : 'btn-ghost'}`} 
+                  onClick={() => setSearchType('genre')}
+                  style={{ flex: 1, padding: '6px 12px', borderRadius: '24px', fontSize: '13px', fontWeight: '500' }}
+                >
+                  {t.searchGenre}
+                </button>
               </div>
 
-              <input
-                className="input"
-                type="text"
-                placeholder={searchType === 'person' ? t.searchActorPlaceholder : t.searchCollectionPlaceholder}
-                value={searchQuery}
-                onChange={e => setSearchQuery(e.target.value)}
-              />
-
-              {searchQuery && (
-                <div className="search-results">
-                  {isSearching ? (
-                    <div style={{ padding: '12px', textAlign: 'center', fontSize: '12px', color: 'var(--text-3)' }}>{t.searching}</div>
-                  ) : searchResults.length > 0 ? (
-                    searchResults.map(item => (
-                      <div key={item.id} className="search-item" onClick={() => addCatalog(item)}>
-                        <img 
-                          src={item.profilePath || item.posterPath || "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='48' viewBox='0 0 32 48'%3E%3Crect width='32' height='48' fill='%23333'/%3E%3C/svg%3E"} 
-                          alt={item.name} 
-                          className="search-item-img" 
-                        />
-                        <div className="search-item-info">
-                          <span className="search-item-name">{item.name}</span>
-                          {searchType === 'person' && item.knownForTitles && (
-                            <span className="search-item-sub">{item.knownForTitles.join(', ')}</span>
-                          )}
-                        </div>
-                      </div>
-                    ))
-                  ) : (
-                    <div style={{ padding: '12px', textAlign: 'center', fontSize: '12px', color: 'var(--text-3)' }}>{t.noResults}</div>
-                  )}
+              {searchType === 'genre' ? (
+                <div className="search-results" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px', padding: '8px', maxHeight: '300px', overflowY: 'auto' }}>
+                  {GENRES.map(g => {
+                    const name = uiLang === 'it' ? g.name : g.nameEn;
+                    const emojiUri = `data:image/svg+xml;utf8,${encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">${g.emoji}</text></svg>`)}`;
+                    return (
+                      <button 
+                        key={g.id} 
+                        className="btn btn-ghost" 
+                        style={{ justifyContent: 'flex-start', padding: '8px', height: 'auto', textAlign: 'left' }}
+                        onClick={() => addCatalog({
+                          id: g.id,
+                          name: `${name}`,
+                          profilePath: emojiUri,
+                          knownFor: 'Genre'
+                        })}
+                      >
+                        <span style={{ fontSize: '20px', marginRight: '8px' }}>{g.emoji}</span>
+                        <span>{name}</span>
+                      </button>
+                    );
+                  })}
                 </div>
+              ) : (
+                <>
+                  <input
+                    className="input"
+                    type="text"
+                    placeholder={searchType === 'person' ? t.searchActorPlaceholder : t.searchCollectionPlaceholder}
+                    value={searchQuery}
+                    onChange={e => setSearchQuery(e.target.value)}
+                  />
+
+                  {searchQuery && (
+                    <div className="search-results">
+                      {isSearching ? (
+                        <div style={{ padding: '12px', textAlign: 'center', fontSize: '12px', color: 'var(--text-3)' }}>{t.searching}</div>
+                      ) : searchResults.length > 0 ? (
+                        searchResults.map(item => (
+                          <div key={item.id} className="search-item" onClick={() => addCatalog(item)}>
+                            <img 
+                              src={item.profilePath || item.posterPath || "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='48' viewBox='0 0 32 48'%3E%3Crect width='32' height='48' fill='%23333'/%3E%3C/svg%3E"} 
+                              alt={item.name} 
+                              className="search-item-img" 
+                            />
+                            <div className="search-item-info">
+                              <span className="search-item-name">{item.name}</span>
+                              {searchType === 'person' && item.knownForTitles && (
+                                <span className="search-item-sub">{item.knownForTitles.join(', ')}</span>
+                              )}
+                            </div>
+                          </div>
+                        ))
+                      ) : (
+                        <div style={{ padding: '12px', textAlign: 'center', fontSize: '12px', color: 'var(--text-3)' }}>{t.noResults}</div>
+                      )}
+                    </div>
+                  )}
+                </>
               )}
             </div>
 

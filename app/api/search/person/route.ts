@@ -19,7 +19,9 @@ export async function GET(req: Request) {
 
   try {
     const data = await searchPerson(q, TMDB_API_KEY, lang, page);
-    const results = (data?.results || []).map((p: any) => ({
+    let results = (data?.results || [])
+      .filter((p: any) => p.known_for_department === 'Acting' || p.known_for_department === 'Directing')
+      .map((p: any) => ({
       id: p.id,
       name: p.name,
       knownFor: p.known_for_department,
@@ -31,6 +33,7 @@ export async function GET(req: Request) {
         .slice(0, 3)
         .map((m: any) => m.title || m.name),
     }));
+
     return NextResponse.json({ results }, { headers: CORS });
   } catch (err) {
     console.error('[search/person]', err);

@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { decodeConfig, isConfigValid } from '@/lib/config';
-import { discoverByCast, discoverByCrew, getCollection, mapMovieToMeta, StremioMeta } from '@/lib/tmdb';
+import { discoverByCast, discoverByCrew, discoverByGenre, getCollection, mapMovieToMeta, StremioMeta } from '@/lib/tmdb';
 import demoCage from '@/lib/demo_cage.json';
 import { trackEvent } from '@/lib/tracker';
 
@@ -93,11 +93,13 @@ export async function GET(
     } else if (personType === 'cast' || personType === 'crew') {
       if (sort === 'random') {
         const pages = await Promise.all(
-          [1, 2, 3, 4].map(p => 
-            personType === 'cast' 
+          [1, 2, 3, 4].map(p => {
+            if (personId <= -100000) return discoverByKeyword(Math.abs(personId) - 100000, apiKey, 'popularity.desc', language, p);
+            if (personId < 0) return discoverByGenre(Math.abs(personId), apiKey, 'popularity.desc', language, p);
+            return personType === 'cast' 
               ? discoverByCast(personId, apiKey, 'popularity.desc', language, p)
-              : discoverByCrew(personId, apiKey, 'popularity.desc', language, p)
-          )
+              : discoverByCrew(personId, apiKey, 'popularity.desc', language, p);
+          })
         );
         let allMovies = pages.flatMap(data => data?.results || []);
         
@@ -112,10 +114,14 @@ export async function GET(
         shuffle(allMovies, seed);
         movies = allMovies.slice(skip, skip + PAGE_SIZE);
       } else {
-        const data = personType === 'cast' 
+        const results = personId <= -100000 
+          ? await discoverByKeyword(Math.abs(personId) - 100000, apiKey, sort, language, page)
+          : personId < 0 
+          ? await discoverByGenre(Math.abs(personId), apiKey, sort, language, page)
+          : personType === 'cast'
           ? await discoverByCast(personId, apiKey, sort, language, page)
           : await discoverByCrew(personId, apiKey, sort, language, page);
-        movies = data?.results || [];
+        movies = results?.results || [];
       }
     } else if (personType === 'collection') {
       // Collections ignore global sort, they are always chronological

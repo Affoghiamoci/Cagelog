@@ -62,6 +62,23 @@ export async function discoverByCrew(personId: number, apiKey: string, sort = 'r
   });
 }
 
+export async function discoverByKeyword(keywordId: number, apiKey: string, sort = 'release_date.desc', language = 'en-US', page = 1) {
+  return tmdbFetch<any>('/discover/movie', apiKey, language, {
+    with_keywords: keywordId,
+    sort_by: sort,
+    page,
+    'vote_count.gte': 5,
+  });
+}
+export async function discoverByGenre(genreId: number, apiKey: string, sort = 'release_date.desc', language = 'en-US', page = 1) {
+  return tmdbFetch<any>('/discover/movie', apiKey, language, {
+    with_genres: genreId,
+    sort_by: sort,
+    page,
+    'vote_count.gte': 5,
+  });
+}
+
 export async function getCollection(collectionId: number, apiKey: string, language = 'en-US') {
   return tmdbFetch<any>(`/collection/${collectionId}`, apiKey, language);
 }
