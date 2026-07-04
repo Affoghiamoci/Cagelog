@@ -107,12 +107,8 @@ const TRANSLATIONS = {
     noResults: 'No results found.',
     typeActor: 'Actor',
     typeDirector: 'Director',
-    typeComposer: 'Composer',
     typeSaga: 'Cinematic Saga',
     typeGenre: 'Genre',
-    addAsActor: '🎭 Actor',
-    addAsDirector: '🎬 Director',
-    addAsComposer: '🎵 Composer',
     installTitle: 'Addon URL - ready to install',
     installPlaceholder: 'Add at least one catalog to generate your link...',
     installStremio: 'Install in Stremio',
@@ -175,12 +171,8 @@ const TRANSLATIONS = {
     noResults: 'Nessun risultato.',
     typeActor: 'Attore',
     typeDirector: 'Regista',
-    typeComposer: 'Compositore',
     typeSaga: 'Saga Cinematografica',
     typeGenre: 'Genere',
-    addAsActor: '🎭 Attore',
-    addAsDirector: '🎬 Regista',
-    addAsComposer: '🎵 Compositore',
     installTitle: 'URL Addon - pronto per l\'installazione',
     installPlaceholder: 'Aggiungi almeno un catalogo per generare il tuo link...',
     installStremio: 'Installa in Stremio',
@@ -325,8 +317,6 @@ export default function ConfigPage() {
 
     if (isPerson) {
       if (item.knownFor === 'Acting') { type = 'cast'; role = 'actor'; }
-      else if (item.knownFor === 'Directing') { type = 'crew'; role = 'director'; }
-      else if (item.knownFor === 'Sound') { type = 'crew'; role = 'composer'; }
       else { type = 'crew'; role = 'director'; }
     }
 
@@ -385,7 +375,6 @@ export default function ConfigPage() {
     if (item.type === 'cast') typeLabel = t.typeActor;
     if (item.type === 'crew') {
       if (item.id < 0) typeLabel = t.typeGenre;
-      else if (item.role === 'composer') typeLabel = t.typeComposer;
       else typeLabel = t.typeDirector;
     }
     if (item.type === 'collection') typeLabel = t.typeSaga;
