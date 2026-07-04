@@ -1,6 +1,8 @@
 import type { Metadata } from 'next';
 import './globals.css';
 
+export const dynamic = 'force-dynamic';
+
 export const metadata: Metadata = {
   title: 'Cagelog — Your favorite actors, directors and sagas on Stremio',
   description: 'Your favorite actors, directors and sagas on Stremio',

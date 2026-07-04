@@ -4,6 +4,8 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { encodeConfig, decodeConfig, AddonConfig, CatalogEntry, DEFAULT_CONFIG, isConfigValid } from '@/lib/config';
 import { VERSION } from '@/lib/version';
 
+export const dynamic = 'force-dynamic';
+
 // ── Icons ──────────────────────────────────────────────────────────────────────
 const GripIcon = () => (
   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -107,6 +109,8 @@ const TRANSLATIONS = {
     typeDirector: 'Director / Crew',
     typeSaga: 'Cinematic Saga',
     typeGenre: 'Genre',
+    addAsActor: '🎭 Actor',
+    addAsDirector: '🎬 Director',
     installTitle: 'Addon URL - ready to install',
     installPlaceholder: 'Add at least one catalog to generate your link...',
     installStremio: 'Install in Stremio',
@@ -171,6 +175,8 @@ const TRANSLATIONS = {
     typeDirector: 'Regista / Crew',
     typeSaga: 'Saga Cinematografica',
     typeGenre: 'Genere',
+    addAsActor: '🎭 Attore',
+    addAsDirector: '🎬 Regista',
     installTitle: 'URL Addon - pronto per l\'installazione',
     installPlaceholder: 'Aggiungi almeno un catalogo per generare il tuo link...',
     installStremio: 'Installa in Stremio',
@@ -308,12 +314,16 @@ export default function ConfigPage() {
     setIsSearching(false);
   }
 
-  function addCatalog(item: any) {
+  function addCatalog(item: any, overrideType?: 'cast' | 'crew') {
     const isPerson = searchType === 'person' || searchType === 'genre';
     let type: 'cast' | 'crew' | 'collection' = 'collection';
     
     if (isPerson) {
-      type = item.knownFor === 'Acting' ? 'cast' : 'crew';
+      if (overrideType) {
+        type = overrideType;
+      } else {
+        type = item.knownFor === 'Acting' ? 'cast' : 'crew';
+      }
     }
 
     const newCatalog: CatalogEntry = {
@@ -550,7 +560,7 @@ export default function ConfigPage() {
                         <div style={{ padding: '12px', textAlign: 'center', fontSize: '12px', color: 'var(--text-3)' }}>{t.searching}</div>
                       ) : searchResults.length > 0 ? (
                         searchResults.map(item => (
-                          <div key={item.id} className="search-item" onClick={() => addCatalog(item)}>
+                          <div key={item.id} className="search-item" onClick={() => { if (searchType !== 'person') addCatalog(item); }} style={{ cursor: searchType === 'person' ? 'default' : 'pointer' }}>
                             <img 
                               src={item.profilePath || item.posterPath || "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='48' viewBox='0 0 32 48'%3E%3Crect width='32' height='48' fill='%23333'/%3E%3C/svg%3E"} 
                               alt={item.name} 
@@ -562,6 +572,12 @@ export default function ConfigPage() {
                                 <span className="search-item-sub">{item.knownForTitles.join(', ')}</span>
                               )}
                             </div>
+                            {searchType === 'person' && (
+                              <div style={{ display: 'flex', gap: '6px', marginLeft: 'auto', flexShrink: 0 }}>
+                                <button className="btn btn-sm btn-surface" onClick={(e) => { e.stopPropagation(); addCatalog(item, 'cast'); }} style={{ fontSize: '11px', padding: '4px 8px' }}>{t.addAsActor}</button>
+                                <button className="btn btn-sm btn-surface" onClick={(e) => { e.stopPropagation(); addCatalog(item, 'crew'); }} style={{ fontSize: '11px', padding: '4px 8px' }}>{t.addAsDirector}</button>
+                              </div>
+                            )}
                           </div>
                         ))
                       ) : (
