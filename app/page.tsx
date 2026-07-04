@@ -830,7 +830,39 @@ export default function ConfigPage() {
           </a>
         </div>
 
-        <div className="faq-footer">
+        <div style={{ marginTop: '40px', padding: '24px', backgroundColor: 'var(--surface-2)', borderRadius: '16px', border: '1px solid var(--surface-3)', textAlign: 'center' }}>
+          <h3 style={{ fontSize: '18px', fontWeight: 600, color: 'var(--text-1)', marginBottom: '16px' }}>Altro da Affogo:</h3>
+          <a
+            href="https://multiboxd.strem.io/"
+            target="_blank"
+            rel="noreferrer"
+            style={{ 
+              display: 'block', 
+              textDecoration: 'none', 
+              backgroundColor: 'var(--surface-3)', 
+              borderRadius: '12px', 
+              padding: '20px', 
+              transition: 'all 0.2s ease',
+              border: '1px solid transparent'
+            }}
+            onMouseEnter={(e) => { 
+              e.currentTarget.style.transform = 'translateY(-2px)'; 
+              e.currentTarget.style.boxShadow = '0 6px 16px rgba(0,0,0,0.2)'; 
+              e.currentTarget.style.borderColor = 'var(--text-3)';
+            }}
+            onMouseLeave={(e) => { 
+              e.currentTarget.style.transform = 'none'; 
+              e.currentTarget.style.boxShadow = 'none'; 
+              e.currentTarget.style.borderColor = 'transparent';
+            }}
+          >
+            <div style={{ fontSize: '28px', marginBottom: '8px' }}>🍿</div>
+            <div style={{ fontSize: '18px', fontWeight: 700, color: 'var(--text-1)', marginBottom: '6px' }}>Multiboxd</div>
+            <div style={{ fontSize: '14px', color: 'var(--text-2)', lineHeight: '1.4' }}>Le tue liste Letterboxd direttamente su Stremio. Sincronizzazione automatica e molto altro!</div>
+          </a>
+        </div>
+
+        <div className="faq-footer" style={{ marginTop: '24px' }}>
           Developed with ♥ for the Stremio community
         </div>
 
