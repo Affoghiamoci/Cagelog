@@ -154,7 +154,7 @@ const TRANSLATIONS = {
     hideAddonNameLabel: 'Hide Addon Name',
     hideHyphenLabel: 'Hide Hyphen',
     posterLanguageLabel: 'Poster Language',
-    moreFrom: 'More from Affogo:',
+    moreFrom: 'More from this developer',
     multiboxdDesc: 'Your Letterboxd lists directly on Stremio. Auto-sync and much more!',
   },
   it: {
@@ -218,7 +218,7 @@ const TRANSLATIONS = {
     hideAddonNameLabel: 'Nascondi Nome Addon',
     hideHyphenLabel: 'Nascondi Trattino',
     posterLanguageLabel: 'Lingua Poster',
-    moreFrom: 'Altro da Affogo:',
+    moreFrom: 'Altro da questo sviluppatore',
     multiboxdDesc: 'Le tue liste Letterboxd direttamente su Stremio. Sincronizzazione automatica e molto altro!',
   }
 };
