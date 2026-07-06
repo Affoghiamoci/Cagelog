@@ -12,6 +12,8 @@ export interface StremioMeta {
   name: string;
   poster?: string;
   releaseInfo?: string;
+  description?: string;
+  background?: string;
 }
 
 export function posterUrl(path: string | null | undefined, size = 'w500'): string | undefined {
@@ -107,5 +109,7 @@ export function mapMovieToMeta(movie: any): StremioMeta {
     name: movie.title || movie.name || 'Sconosciuto',
     poster: posterUrl(movie.poster_path, 'w500'),
     releaseInfo: movie.release_date ? movie.release_date.split('-')[0] : undefined,
+    description: movie.overview || undefined,
+    background: posterUrl(movie.backdrop_path, 'w1280'),
   };
 }
