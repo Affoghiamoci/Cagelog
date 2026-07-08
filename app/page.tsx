@@ -88,7 +88,8 @@ const GENRES = [
   { id: -37, name: 'Western', nameEn: 'Western', emoji: '🤠' },
   { id: -112339, name: 'Slasher', nameEn: 'Slasher', emoji: '🪓' },
   { id: -109715, name: 'Supereroi', nameEn: 'Superhero', emoji: '🦸' },
-  { id: -110292, name: 'Splatter', nameEn: 'Splatter', emoji: '🩸' }
+  { id: -110292, name: 'Splatter', nameEn: 'Splatter', emoji: '🩸' },
+  { id: -263053, name: 'Found Footage', nameEn: 'Found Footage', emoji: '📼' }
 ];
 
 // ── Translations ───────────────────────────────────────────────────────────────
@@ -153,7 +154,7 @@ const TRANSLATIONS = {
     catalogPrefixHint: 'Catalogs will appear as',
     hideAddonNameLabel: 'Hide Addon Name',
     hideHyphenLabel: 'Hide Hyphen',
-    posterLanguageLabel: 'Poster Language',
+    posterLanguageLabel: 'Content Language',
     moreFrom: 'More from this developer',
     multiboxdDesc: 'Your Letterboxd lists directly on Stremio. Auto-sync and much more!',
   },
@@ -217,7 +218,7 @@ const TRANSLATIONS = {
     catalogPrefixHint: 'I cataloghi appariranno come',
     hideAddonNameLabel: 'Nascondi Nome Addon',
     hideHyphenLabel: 'Nascondi Trattino',
-    posterLanguageLabel: 'Lingua Poster',
+    posterLanguageLabel: 'Lingua Contenuti',
     moreFrom: 'Altro da questo sviluppatore',
     multiboxdDesc: 'Le tue liste Letterboxd direttamente su Stremio. Sincronizzazione automatica e molto altro!',
   }
