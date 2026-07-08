@@ -88,8 +88,9 @@ const GENRES = [
   { id: -37, name: 'Western', nameEn: 'Western', emoji: '🤠' },
   { id: -112339, name: 'Slasher', nameEn: 'Slasher', emoji: '🪓' },
   { id: -109715, name: 'Supereroi', nameEn: 'Superhero', emoji: '🦸' },
-  { id: -110292, name: 'Splatter', nameEn: 'Splatter', emoji: '🩸' },
-  { id: -263053, name: 'Found Footage', nameEn: 'Found Footage', emoji: '📼' }
+  { id: -110292, name: 'Gore', nameEn: 'Gore', emoji: '🩸' },
+  { id: -263053, name: 'Found Footage', nameEn: 'Found Footage', emoji: '📼' },
+  { id: -150009, name: 'Survival Horror', nameEn: 'Survival Horror', emoji: '🔦' }
 ];
 
 // ── Translations ───────────────────────────────────────────────────────────────
