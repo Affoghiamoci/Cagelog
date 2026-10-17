@@ -60,8 +60,8 @@ export async function GET(
     return NextResponse.json({ metas: [] }, { headers: CORS });
   }
 
-  // Track this catalog request (fire-and-forget)
-  trackEvent('cagelog', 'catalog_request', params.config);
+  // Conta solo la prima pagina di ogni catalogo (le pagine successive sono lo stesso utilizzo)
+  if (!(skip > 0)) trackEvent('cagelog', 'catalog_request', params.config);
 
   const apiKey = TMDB_API_KEY;
   const language = config.language || 'en-US';
