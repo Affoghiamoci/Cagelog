@@ -61,7 +61,7 @@ export async function GET(
   }
 
   // Conta solo la prima pagina di ogni catalogo (le pagine successive sono lo stesso utilizzo)
-  if (!(skip > 0)) trackEvent('cagelog', 'catalog_request', params.config);
+  if (!(skip > 0)) trackEvent('cagelog', 'catalog_request', params.config, config.cid);
 
   const apiKey = TMDB_API_KEY;
   const language = config.language || 'en-US';

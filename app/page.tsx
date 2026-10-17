@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { encodeConfig, decodeConfig, AddonConfig, CatalogEntry, DEFAULT_CONFIG, isConfigValid } from '@/lib/config';
 import { VERSION } from '@/lib/version';
+import { ensureInstallId } from '@/lib/installId';
 
 export const dynamic = 'force-dynamic';
 
@@ -127,7 +128,7 @@ const TRANSLATIONS = {
     faq4q: 'Do I need an API key?',
     faq4a: 'No! Cagelog works out of the box - no API key required. Just add your catalogs and install.',
     faq5q: 'What data does this addon collect?',
-    faq5a: 'This addon collects anonymous usage statistics (number of requests, addon name, timestamp) to monitor the service. No IP addresses, names, or personally identifiable data are stored.',
+    faq5a: 'This addon collects anonymous usage statistics (number of requests, addon name, timestamp) to monitor the service, plus a random installation code (stored in your install link and saved in an encrypted form) used only to count installations. No IP addresses, names, or personally identifiable data are stored.',
     sortNewest: 'Newest First',
     sortOldest: 'Oldest First',
     sortPopular: 'Popularity',
@@ -191,7 +192,7 @@ const TRANSLATIONS = {
     faq4q: 'Ho bisogno di una API Key?',
     faq4a: 'No! Cagelog funziona subito, senza bisogno di nessuna API key. Aggiungi i tuoi cataloghi e installa.',
     faq5q: 'Quali dati raccoglie questo addon?',
-    faq5a: 'Questo addon raccoglie statistiche di utilizzo anonime (numero di richieste, addon usato, timestamp) per monitorare il funzionamento del servizio. Non vengono salvati IP, nomi o dati personali identificabili.',
+    faq5a: 'Questo addon raccoglie statistiche di utilizzo anonime (numero di richieste, addon usato, timestamp) per monitorare il funzionamento del servizio, più un codice di installazione casuale (contenuto nel link di installazione e salvato in forma cifrata) usato solo per contare le installazioni. Non vengono salvati IP, nomi o dati personali identificabili.',
     sortNewest: 'Più recenti',
     sortOldest: 'Meno recenti',
     sortPopular: 'Popolarità',
@@ -258,6 +259,11 @@ export default function ConfigPage() {
         setConfig(restored);
       }
     }
+  }, []);
+
+  // ogni installazione ha un codice anonimo stabile, anche quando si cambiano le impostazioni
+  useEffect(() => {
+    setConfig(prev => (prev.cid && ensureInstallId(prev.cid) === prev.cid ? prev : { ...prev, cid: ensureInstallId(prev.cid) }));
   }, []);
 
   useEffect(() => {
