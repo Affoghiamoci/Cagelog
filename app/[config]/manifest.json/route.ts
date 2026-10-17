@@ -27,7 +27,7 @@ export async function GET(
   }
 
   // Track manifest request (fire-and-forget)
-  trackEvent('cagelog', 'manifest_request', params.config);
+  trackEvent('cagelog', 'manifest_request', params.config, config.cid);
 
   const catalogs = config.catalogs.map((entry) => ({
     type: 'movie',

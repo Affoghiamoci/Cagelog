@@ -8,6 +8,7 @@ export interface CatalogEntry {
 }
 
 export interface AddonConfig {
+  cid?: string;           // codice di installazione anonimo (solo per le statistiche)
   // TMDB key is no longer stored in the public config — it's hardcoded server-side
   language: string;       // poster/catalog language (TMDB)
   sort: string;
